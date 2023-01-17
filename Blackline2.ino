@@ -77,29 +77,29 @@ bool right = false;
 
 void loop() {
   if (tape() == 0 || tape() == 5) {
-    drive(255, 255);
+    drive(170, 170);
   } else {
     if (tape() == 100) {
       if (right) {
-        drive(-130, -100);
+        drive(-130, -50);
       } else {
-        drive(-100, -130);
+        drive(-50, -130);
       }
     } else {
       if (tape() == 1) {
-        drive(180, 255);
+        drive(120, 200);
         right = true;
       }
       if (tape() == 2) {
-        drive(77, 255);
+        drive(77, 200);
         right = true;
       }
       if (tape() == -1) {
-        drive(255, 180);
+        drive(200, 120);
         right = false;
       }
       if (tape() == -2) {
-        drive(255, 77);
+        drive(200, 77);
         right = false;
       }
     }
