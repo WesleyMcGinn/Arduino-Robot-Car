@@ -1,3 +1,9 @@
+/*
+Main Code
+NOT FINISHED
+*/
+
+// Pin Numbers:
 const int RSL = 9;
 const int leftMotor_dir = 4;
 const int leftMotor_pwr = 5;
@@ -10,6 +16,7 @@ const int NECK = 10;
 #define SCL_Pin A5
 #define SDA_Pin A4
 
+// LED Screen Images:
 unsigned char clear[] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 unsigned char smile[] = {0x08, 0x10, 0x20, 0x20, 0x43, 0x43, 0x80, 0x80, 0x80, 0x80, 0x43, 0x43, 0x20, 0x20, 0x10, 0x08};
 unsigned char smile_blink[] = {0x08, 0x10, 0x20, 0x20, 0x42, 0x42, 0x80, 0x80, 0x80, 0x80, 0x42, 0x42, 0x20, 0x20, 0x10, 0x08};
@@ -18,8 +25,10 @@ unsigned char confused_blink[] = {0x00, 0x00, 0x40, 0x40, 0x42, 0x42, 0x40, 0x40
 unsigned char happy[] = {0x00, 0x18, 0x28, 0x28, 0x4b, 0x4b, 0x88, 0x88, 0x88, 0x88, 0x4b, 0x4b, 0x28, 0x28, 0x18, 0x00};
 unsigned char happy_blink[] = {0x00, 0x18, 0x28, 0x28, 0x4a, 0x4a, 0x88, 0x88, 0x88, 0x88, 0x4a, 0x4a, 0x28, 0x28, 0x18, 0x00};
 
+// Libraries:
 #include <Servo.h>
 
+// Functions:
 void drive(int l_value = 0, int r_value = 0) {
   int lNew = l_value;
   int rNew = r_value;
@@ -38,7 +47,6 @@ void drive(int l_value = 0, int r_value = 0) {
   analogWrite(leftMotor_pwr, lNew);
   analogWrite(rightMotor_pwr, rNew);
 }
-
 #define BLACK 0
 #define WHITE 1
 int tape(int color = BLACK) {
@@ -62,7 +70,6 @@ int tape(int color = BLACK) {
     if (digitalRead(L) == LOW && digitalRead(M) == HIGH && digitalRead(R) == LOW) { return 5; } // Thin tape in center
   }
 }
-
 #define mm 0
 #define cm 1
 #define in 2
@@ -82,13 +89,14 @@ int distance(int trigger, int echo, int units = cm) {
   if (units == ft) { return round(0.00056525 * rawInput); } else {
   return 0; }}}}
 }
-
 void pic(unsigned char matrix_value[]) {
   digitalWrite(SCL_Pin,HIGH);delayMicroseconds(3);digitalWrite(SDA_Pin,HIGH);delayMicroseconds(3);digitalWrite(SDA_Pin,LOW);delayMicroseconds(3);IIC_send(0xc0);for(int i=0;i<16;i++){IIC_send(matrix_value[i]);}digitalWrite(SCL_Pin,LOW);delayMicroseconds(3);digitalWrite(SDA_Pin,LOW);delayMicroseconds(3);digitalWrite(SCL_Pin,HIGH);delayMicroseconds(3);digitalWrite(SDA_Pin,HIGH);delayMicroseconds(3);digitalWrite(SCL_Pin,HIGH);delayMicroseconds(3);digitalWrite(SDA_Pin,HIGH);delayMicroseconds(3);digitalWrite(SDA_Pin,LOW);delayMicroseconds(3);IIC_send(0x8A);digitalWrite(SCL_Pin,LOW);delayMicroseconds(3);digitalWrite(SDA_Pin,LOW);delayMicroseconds(3);digitalWrite(SCL_Pin,HIGH);delayMicroseconds(3);digitalWrite(SDA_Pin,HIGH);delayMicroseconds(3);}void IIC_send(unsigned char send_data){for(char i=0;i<8;i++){digitalWrite(SCL_Pin,LOW);delayMicroseconds(3);if(send_data & 0x01){digitalWrite(SDA_Pin,HIGH);}else{digitalWrite(SDA_Pin,LOW);}delayMicroseconds(3);digitalWrite(SCL_Pin,HIGH);delayMicroseconds(3);send_data=send_data>>1;}
 }
 
+// Objects:
 Servo neck;
 
+// Code:
 void setup() {
   pinMode(RSL, OUTPUT);
   pinMode(leftMotor_dir, OUTPUT);
@@ -108,11 +116,13 @@ void setup() {
   pic(smile_blink);
 }
 
+// Variables:
 bool right = false;
 unsigned long blinkPeriod = 5000;
 unsigned long blinkTime = 80;
 unsigned long t = 0;
 
+// Main Code:
 void loop() {
   t = millis();
   if (tape() == 0 || tape() == 5) {
