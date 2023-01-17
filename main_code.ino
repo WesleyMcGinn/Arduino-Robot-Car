@@ -1,6 +1,6 @@
 /*
 Main Code
-NOT FINISHED
+!--NOT FINISHED--!
 */
 
 // Pin Numbers:
@@ -111,7 +111,7 @@ void setup() {
   pic(smile);
   neck.attach(NECK, 500, 2500);
   delay(3000);
-  neck.write(0);
+  neck.write(90);
   digitalWrite(RSL, HIGH);
   pic(smile_blink);
 }
