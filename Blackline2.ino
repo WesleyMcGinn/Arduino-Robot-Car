@@ -1,3 +1,10 @@
+/*
+BLACKLINE 2
+Makes the robot follow a line of black tape on the floor.
+Start the robot on the line and it should work properly.
+*/
+
+
 const int RSL = 9;
 const int leftMotor_dir = 4;
 const int leftMotor_pwr = 5;
