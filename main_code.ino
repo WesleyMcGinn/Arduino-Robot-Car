@@ -1,6 +1,14 @@
 /*
 Main Code
 !--NOT FINISHED--!
+Currently only follows blackline efficiently and shows robot face on screen.
+Robot will only be happy while it is on the line.
+Robot will blink every 4 seconds.
+Servo motor will rotate to face direction of robot travel.
+
+To be added:
+ - Distance sensor functionality and application.
+ - IR Remote control of robot
 */
 
 // Pin Numbers:
@@ -16,7 +24,7 @@ const int NECK = 10;
 #define SCL_Pin A5
 #define SDA_Pin A4
 
-// LED Screen Images:
+// Screen Pictures:
 unsigned char clear[] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 unsigned char smile[] = {0x08, 0x10, 0x20, 0x20, 0x43, 0x43, 0x80, 0x80, 0x80, 0x80, 0x43, 0x43, 0x20, 0x20, 0x10, 0x08};
 unsigned char smile_blink[] = {0x08, 0x10, 0x20, 0x20, 0x42, 0x42, 0x80, 0x80, 0x80, 0x80, 0x42, 0x42, 0x20, 0x20, 0x10, 0x08};
@@ -92,11 +100,6 @@ int distance(int trigger, int echo, int units = cm) {
 void pic(unsigned char matrix_value[]) {
   digitalWrite(SCL_Pin,HIGH);delayMicroseconds(3);digitalWrite(SDA_Pin,HIGH);delayMicroseconds(3);digitalWrite(SDA_Pin,LOW);delayMicroseconds(3);IIC_send(0xc0);for(int i=0;i<16;i++){IIC_send(matrix_value[i]);}digitalWrite(SCL_Pin,LOW);delayMicroseconds(3);digitalWrite(SDA_Pin,LOW);delayMicroseconds(3);digitalWrite(SCL_Pin,HIGH);delayMicroseconds(3);digitalWrite(SDA_Pin,HIGH);delayMicroseconds(3);digitalWrite(SCL_Pin,HIGH);delayMicroseconds(3);digitalWrite(SDA_Pin,HIGH);delayMicroseconds(3);digitalWrite(SDA_Pin,LOW);delayMicroseconds(3);IIC_send(0x8A);digitalWrite(SCL_Pin,LOW);delayMicroseconds(3);digitalWrite(SDA_Pin,LOW);delayMicroseconds(3);digitalWrite(SCL_Pin,HIGH);delayMicroseconds(3);digitalWrite(SDA_Pin,HIGH);delayMicroseconds(3);}void IIC_send(unsigned char send_data){for(char i=0;i<8;i++){digitalWrite(SCL_Pin,LOW);delayMicroseconds(3);if(send_data & 0x01){digitalWrite(SDA_Pin,HIGH);}else{digitalWrite(SDA_Pin,LOW);}delayMicroseconds(3);digitalWrite(SCL_Pin,HIGH);delayMicroseconds(3);send_data=send_data>>1;}
 }
-
-// Objects:
-Servo neck;
-
-// Code:
 void setup() {
   pinMode(RSL, OUTPUT);
   pinMode(leftMotor_dir, OUTPUT);
@@ -109,24 +112,28 @@ void setup() {
   pinMode(SCL_Pin,OUTPUT);
   pinMode(SDA_Pin,OUTPUT);
   pic(smile);
-  neck.attach(NECK, 500, 2500);
+  neck.attach(NECK);
   delay(3000);
   neck.write(90);
   digitalWrite(RSL, HIGH);
   pic(smile_blink);
 }
 
+// Objects:
+Servo neck;
+
 // Variables:
 bool right = false;
-unsigned long blinkPeriod = 5000;
-unsigned long blinkTime = 80;
+unsigned long blinkPeriod = 4000;
+unsigned long blinkTime = 90;
 unsigned long t = 0;
 
 // Main Code:
 void loop() {
   t = millis();
   if (tape() == 0 || tape() == 5) {
-    drive(255, 255);
+    drive(125, 125);
+    neck.write(90);
     if (t % blinkPeriod <= blinkTime) {
       pic(smile_blink);
     } else {
@@ -135,9 +142,11 @@ void loop() {
   } else {
     if (tape() == 100) {
       if (right) {
-        drive(-130, -100);
+        drive(-105, 105);
+        neck.write(120);
       } else {
-        drive(-100, -130);
+        drive(105, -105);
+        neck.write(60);
       }
       if (t % blinkPeriod <= blinkTime) {
         pic(confused_blink);
@@ -146,25 +155,25 @@ void loop() {
       }
     } else {
       if (tape() == 1) {
-        drive(180, 255);
+        drive(100, 125);
         right = true;
       }
       if (tape() == 2) {
-        drive(77, 255);
+        drive(90, 125);
         right = true;
       }
       if (tape() == -1) {
-        drive(255, 180);
+        drive(125, 100);
         right = false;
       }
       if (tape() == -2) {
-        drive(255, 77);
+        drive(125, 90);
         right = false;
       }      
       if (t % blinkPeriod <= blinkTime) {
-        pic(happy_blink);
+        pic(smile_blink);
       } else {
-        pic(happy);
+        pic(smile);
       }
     }
   }
