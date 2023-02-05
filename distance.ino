@@ -1,3 +1,9 @@
+/*
+DISTANCE RETURN
+Use the arduino serial monitor on baud rate 115200 to see the distance in centimetres from the distance sensor to whatever is in front of it.
+You will recieve about ten readings per second.
+*/
+
 const int RSL = 9;
 
 // Distance Detecting Function:
