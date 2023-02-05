@@ -1,5 +1,7 @@
 /* RACE CODE
 This is the official programming that was in the robot car for the blackline race.
+Our robot did win the blackline race, so this is GOOD CODE.
+Our robot beat the next closest team by 5.99 seconds.
 */
 
 // Pin Numbers:
@@ -11,12 +13,10 @@ const int rightMotor_pwr = 6;
 const int L = 8;
 const int M = 7;
 const int R = 11;
-const int NECK = 10;
-#define SCL_Pin A5
-#define SDA_Pin A4
 
 // Variables:
 bool right = false;
+int Tape;
 
 // Functions:
 void drive(int l_value = 0, int r_value = 0) {
@@ -60,25 +60,6 @@ int tape(int color = BLACK) {
     if (digitalRead(L) == LOW && digitalRead(M) == HIGH && digitalRead(R) == LOW) { return 5; } // Thin tape in center
   }
 }
-#define mm 0
-#define cm 1
-#define in 2
-#define ft 3
-int distance(int trigger, int echo, int units = cm) {
-  pinMode(trigger, OUTPUT);
-  digitalWrite(trigger, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trigger, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigger, LOW);
-  pinMode(echo, INPUT);
-  long rawInput = pulseIn(echo, HIGH);
-  if (units == mm) { return round(0.1723 * rawInput); } else {
-  if (units == cm) { return round(0.01723 * rawInput); } else {
-  if (units == in) { return round(0.006783 * rawInput); } else {
-  if (units == ft) { return round(0.00056525 * rawInput); } else {
-  return 0; }}}}
-}
 void setup() {
   pinMode(RSL, OUTPUT);
   pinMode(leftMotor_dir, OUTPUT);
@@ -91,8 +72,6 @@ void setup() {
   delay(3000);
   digitalWrite(RSL, HIGH);
 }
-
-int Tape;
 
 // Main Code:
 void loop() {
