@@ -7,4 +7,6 @@ This is some programming for the arudino robot car found at [this link](https://
  - Incorrect pin numbers for components based on robot wiring instructions (eg. Middle and left blackline sensors, servo motor, right motors pwm, and more)
  - Low program quality (eg. robot moves very slow on blackline when it could move so much faster, or robot stops when it goes off the edge of blackline)
 
-Because there are so many errors in this code, I decided to write completely different code for the robot.  You can access that code in this repository.  If you have any questions or comments, please post them in the repository discussion.  I hope that you will find this code to be useful for your programming and your learning.
+Because there are so many errors in this code, I decided to write completely different code for the robot.  You can access that code in this repository.  If you have any questions or comments, please post them in the [repository discussion](https://github.com/WesleyMcGinn/Arduino-Robot-Car/discussions/1).  I hope that you will find this code to be useful for your programming and your learning.
+
+![Picture of Robot](https://m.media-amazon.com/images/I/71XpzsS2dbL._AC_SX466_.jpg)
